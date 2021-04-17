@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Controlled as CodeMirror } from "react-codemirror2";
 import options from "../config/codeMirror";
 import _ from "lodash";
@@ -11,7 +11,7 @@ require("codemirror/mode/javascript/javascript.js");
 
 
 function CodeMirrorComponent() {
-  const [value, setValue] = useState("// Hello Dome");
+  const [value, setValue] = useState("// RafaSCode");
     function evaluateExpressions(expressions)
     {
         const formattedExpressions = _.mapValues(expressions, expression => {
@@ -44,15 +44,19 @@ function CodeMirrorComponent() {
           expressions = parseExpressions(state);
       } catch (e) {
           errors = e.toString();
-          console.log("errors", errors)
+   
       }
 
     //   return { expressions, errors };
         return expressions
     }
    
-    const displayMe = evaluateExpressions(createExpression(value));
-    console.log("display", displayMe)
+    let [expressionsToBeDisplayed, setExpressionsToBeDisplayed] = useState([]) 
+    useEffect(() =>
+    {
+        setExpressionsToBeDisplayed(evaluateExpressions(createExpression(value)));
+        // console.log('da exp', expressionsToBeDisplayed)   
+    }, [value])
     return (
       <>
         <CodeMirror
@@ -63,9 +67,8 @@ function CodeMirrorComponent() {
           }}
           onChange={(editor, data, value) => {}}
         />
-            <div>{displayMe.length ? displayMe.map(el => el
-            ) : "No code, dude"}</div>
-            <Terminal />
+   
+        <Terminal expressionsToBeDisplayed={expressionsToBeDisplayed} />
       </>
     );
 }
