@@ -3,9 +3,11 @@ import { Controlled as CodeMirror } from "react-codemirror2";
 import options from "../config/codeMirror";
 import _ from "lodash";
 import parseExpressions from "../parseExpressions"
+import Terminal from "../components/terminal";
 require("codemirror/lib/codemirror.css");
 require("codemirror/theme/material.css");
 require("codemirror/mode/javascript/javascript.js");
+
 
 
 function CodeMirrorComponent() {
@@ -63,6 +65,7 @@ function CodeMirrorComponent() {
         />
             <div>{displayMe.length ? displayMe.map(el => el
             ) : "No code, dude"}</div>
+            <Terminal />
       </>
     );
 }
