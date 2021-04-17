@@ -28,9 +28,9 @@ const Terminal = ({ expressionsToBeDisplayed }) =>
               ) : (
                 <span style={{ color: "red" }}>Error</span>
               )}
+                </div>
             </div>
-          </div>
-        </section>
+            </section>
       </div>
     );
 };
