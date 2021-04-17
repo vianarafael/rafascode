@@ -16,7 +16,7 @@ const Chat = () =>
       socket.on("chat", (data) =>
       {
         const output = document.getElementById("output")
-        output.innerHTML += `<p><strong>${data.handle}</strong>${data.message}</p>`;
+        output.innerHTML += `<p><strong>${data.handle}:</strong> ${data.message}</p>`;
       });
     }, []);
   
