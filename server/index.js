@@ -32,7 +32,8 @@ const io = socket(server, {
 io.on("connection", socket =>
 {
     console.log("made socket connection");
-
-    socket.emit("chat", "some response")
+      socket.on("chat", (data) => {
+        io.emit("chat", data);
+      });
 
 })
