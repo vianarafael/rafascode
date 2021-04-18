@@ -26,6 +26,9 @@ const Chat = () =>
       handle,
       message
     })
+    // check if this empties the field
+    document.getElementById("message").value = ""
+    setMessage("")
   }
   
   return (
@@ -33,11 +36,20 @@ const Chat = () =>
       <div id="chat-window">
         <div id="output"></div>
       </div>
-      <input id="handle" type="text" placeholder="User Name" onChange={e => setHandle(e.target.value)} />
-      <input id="message" type="text" placeholder="message" onChange={e => setMessage(e.target.value)} />
-      <button id="send"
-        onClick={submitMessage}
-      >Send</button>
+      <input
+        id="handle"
+        type="text"
+        placeholder="User Name"
+        onChange={(e) => setHandle(e.target.value)}
+      />
+      <input
+        id="message"
+        type="text"
+        placeholder="message"
+        onChange={(e) => setMessage(e.target.value)}/>
+      <button id="send" onClick={submitMessage}>
+        Send
+      </button>
     </div>
   );
 };
