@@ -6,7 +6,6 @@ import "./CodeMirrorComponent.css";
 import parseExpressions from "../parseExpressions"
 import Terminal from "../components/terminal";
 import socketIOClient from "socket.io-client";
-import { Expression } from "babel-standalone";
 const ENDPOINT = "http://127.0.0.1:5000";
 
 require("codemirror/lib/codemirror.css");
@@ -83,20 +82,17 @@ function CodeMirrorComponent() {
         setExpressionsToBeDisplayed(
           evaluateExpressions(createExpression(value))
         );
+        socket.emit('code', { value })
         // console.log('da exp', expressionsToBeDisplayed)
       }, [value]);
 
-  useEffect(() =>
-  {
-   socket.emit("code", { value, expressionsToBeDisplayed })
+  // useEffect(() =>
+  // {
+  //  socket.emit("code", { value, expressionsToBeDisplayed })
     
-  }, [expressionsToBeDisplayed])
-
-    
-  const [displayExp, setDisplayExp] = useState()
+  // }, [expressionsToBeDisplayed])
 
  
-   
 
     return (
       <div id="editor-terminal">
@@ -107,16 +103,16 @@ function CodeMirrorComponent() {
             setValue(value);
           }}
           onChange={(editor, data, value) => {}}
-          onKeyUp={(editor, data, v) =>
-          {
-            if (data.keyCode === 13)
-            {
-              setExpressionsToBeDisplayed(evaluateExpressions(createExpression(value)));
-            }
-            
-          }}
+          // onKeyUp={(editor, data, v) =>
+          // {
+          //   if (data.keyCode === 13)
+          //   {
+          //     setExpressionsToBeDisplayed(evaluateExpressions(createExpression(value)));
+          //   }
+
+          // }}
         />
-        <button onClick={() =>
+        {/* <button onClick={() =>
         {
           console.log('inside')
           console.log('value', value)
@@ -125,9 +121,14 @@ function CodeMirrorComponent() {
           {
             setValue(data.value)
           })
-        }}>Check</button>
-   
-        <Terminal expressionsToBeDisplayed={expressionsToBeDisplayed} />
+        }}>Check</button> */}
+
+        <Terminal
+          expressionsToBeDisplayed={expressionsToBeDisplayed}
+          setExpressionsToBeDisplayed={setExpressionsToBeDisplayed}
+          evaluateExpressions={evaluateExpressions}
+          createExpression={createExpression}
+        />
       </div>
     );
 }
