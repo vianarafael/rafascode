@@ -22,7 +22,7 @@ const Terminal = ({ expressionsToBeDisplayed }) =>
             <span id="terminal__prompt--location">~</span>
             <span id="terminal__prompt--bling">$</span>
             <span id="terminal__prompt--cursor"></span>
-            <div>
+            <div id="expression-display">
               {expressionsToBeDisplayed.length ? (
                 expressionsToBeDisplayed.map((el) => <span style={{color: "white"}}>{el}</span>)
               ) : (

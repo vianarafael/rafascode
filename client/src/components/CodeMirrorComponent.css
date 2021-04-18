@@ -2,3 +2,5 @@
     display: inline-block;
     width: 70%;
 }
+
+.CodeMirror { min-height: 65vh }

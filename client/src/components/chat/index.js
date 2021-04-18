@@ -36,20 +36,24 @@ const Chat = () =>
       <div id="chat-window">
         <div id="output"></div>
       </div>
-      <input
-        id="handle"
-        type="text"
-        placeholder="User Name"
-        onChange={(e) => setHandle(e.target.value)}
-      />
-      <input
-        id="message"
-        type="text"
-        placeholder="message"
-        onChange={(e) => setMessage(e.target.value)}/>
-      <button id="send" onClick={submitMessage}>
-        Send
-      </button>
+      <div id="input-section">
+        <input
+          id="handle"
+          type="text"
+          placeholder="User Name"
+          onChange={(e) => setHandle(e.target.value)}
+        />
+
+        <input
+          id="message"
+          type="text"
+          placeholder="message"
+          onChange={(e) => setMessage(e.target.value)}
+        />
+        <button id="send" onClick={submitMessage}>
+          Send
+        </button>
+      </div>
     </div>
   );
 };

@@ -8,11 +8,11 @@ body {
   display: flex;  
   justify-content: center;  
   align-items: center;  
-  height: 100vh;
+  
 } 
 #terminal {  
   width: 70vw;  
-  height: 65vh;  
+  height: 35vh;  
   box-shadow: 2px 4px 10px rgba(0,0,0,0.5);
 } 
 #terminal__bar {  
@@ -26,6 +26,12 @@ body {
   border-top-right-radius: 5px;  
   background: linear-gradient(#504b45 0%,#3c3b37 100%);
 } 
+
+#expression-display {
+  max-height: 30vh;
+  width: 100%;
+  overflow: auto;
+}
 #bar__buttons {  
   display: flex;  
   align-items: center;
