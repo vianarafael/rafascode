@@ -4,6 +4,7 @@ import options from "../config/codeMirror";
 import _ from "lodash";
 import parseExpressions from "../parseExpressions"
 import Terminal from "../components/terminal";
+import "./CodeMirrorComponent.css"
 require("codemirror/lib/codemirror.css");
 require("codemirror/theme/material.css");
 require("codemirror/mode/javascript/javascript.js");
@@ -58,7 +59,7 @@ function CodeMirrorComponent() {
         // console.log('da exp', expressionsToBeDisplayed)   
     }, [value])
     return (
-      <>
+      <div id="editor-terminal">
         <CodeMirror
           value={value}
           options={options}
@@ -69,7 +70,7 @@ function CodeMirrorComponent() {
         />
    
         <Terminal expressionsToBeDisplayed={expressionsToBeDisplayed} />
-      </>
+      </div>
     );
 }
 export default CodeMirrorComponent;
