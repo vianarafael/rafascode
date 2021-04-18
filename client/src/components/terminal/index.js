@@ -2,7 +2,6 @@ import './terminal.css'
 
 const Terminal = ({ expressionsToBeDisplayed }) =>
 {
-
     return (
       <div id="terminal">
         <section id="terminal__bar">

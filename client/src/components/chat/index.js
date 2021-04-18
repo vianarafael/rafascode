@@ -7,12 +7,10 @@ const Chat = () =>
 {
   const [message, setMessage] = useState();
   const [handle, setHandle] = useState();
-  const [messages, setMessages] = useState([])
 
   const socket = socketIOClient(ENDPOINT);
     useEffect(() => {
       console.log('here again')
-      // const socket = socketIOClient(ENDPOINT);
       socket.on("chat", (data) =>
       {
         const output = document.getElementById("output")

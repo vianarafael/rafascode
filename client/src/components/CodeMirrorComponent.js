@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Controlled as CodeMirror } from "react-codemirror2";
 import options from "../config/codeMirror";
-import _ from "lodash";
+import _, { update } from "lodash";
+import "./CodeMirrorComponent.css";
 import parseExpressions from "../parseExpressions"
 import Terminal from "../components/terminal";
-import "./CodeMirrorComponent.css"
+import socketIOClient from "socket.io-client";
+import { Expression } from "babel-standalone";
+const ENDPOINT = "http://127.0.0.1:5000";
+
 require("codemirror/lib/codemirror.css");
 require("codemirror/theme/material.css");
 require("codemirror/mode/javascript/javascript.js");
@@ -13,6 +17,30 @@ require("codemirror/mode/javascript/javascript.js");
 
 function CodeMirrorComponent() {
   const [value, setValue] = useState("// RafaSCode");
+  const [expressionsToBeDisplayed, setExpressionsToBeDisplayed] = useState([]); 
+  const [receivingData, setReceivingData] = useState(false)
+  const socket = socketIOClient(ENDPOINT);
+
+  // useEffect(() =>
+  // {
+  //       socket.emit("code", {value})
+  //       // setExpressionsToBeDisplayed(
+  //       //   evaluateExpressions(createExpression(value))
+     
+  // }, [value]);
+  
+  // useEffect(() =>
+  // {
+  //   socket.on("code", ({ value }) =>
+  //   {
+  //         setValue(value)
+  //         setExpressionsToBeDisplayed(
+  //         evaluateExpressions(createExpression(value)))
+  //   })
+  // })
+
+
+  
     function evaluateExpressions(expressions)
     {
         const formattedExpressions = _.mapValues(expressions, expression => {
@@ -48,16 +76,28 @@ function CodeMirrorComponent() {
    
       }
 
-    //   return { expressions, errors };
         return expressions
     }
+
+      useEffect(() => {
+        setExpressionsToBeDisplayed(
+          evaluateExpressions(createExpression(value))
+        );
+        // console.log('da exp', expressionsToBeDisplayed)
+      }, [value]);
+
+  useEffect(() =>
+  {
+   socket.emit("code", { value, expressionsToBeDisplayed })
+    
+  }, [expressionsToBeDisplayed])
+
+    
+  const [displayExp, setDisplayExp] = useState()
+
+ 
    
-    let [expressionsToBeDisplayed, setExpressionsToBeDisplayed] = useState([]) 
-    useEffect(() =>
-    {
-        setExpressionsToBeDisplayed(evaluateExpressions(createExpression(value)));
-        // console.log('da exp', expressionsToBeDisplayed)   
-    }, [value])
+
     return (
       <div id="editor-terminal">
         <CodeMirror
@@ -67,7 +107,25 @@ function CodeMirrorComponent() {
             setValue(value);
           }}
           onChange={(editor, data, value) => {}}
+          onKeyUp={(editor, data, v) =>
+          {
+            if (data.keyCode === 13)
+            {
+              setExpressionsToBeDisplayed(evaluateExpressions(createExpression(value)));
+            }
+            
+          }}
         />
+        <button onClick={() =>
+        {
+          console.log('inside')
+          console.log('value', value)
+          console.log('expressionsToBeDisplayed', expressionsToBeDisplayed);
+          socket.on("code", data =>
+          {
+            setValue(data.value)
+          })
+        }}>Check</button>
    
         <Terminal expressionsToBeDisplayed={expressionsToBeDisplayed} />
       </div>
