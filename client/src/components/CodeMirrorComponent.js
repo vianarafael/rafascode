@@ -95,9 +95,15 @@ function CodeMirrorComponent()
         <CodeMirror
           value={value}
           options={options}
-          onBeforeChange={(editor, data, value) => {
-                  console.log("sending", value);
-                  socket.emit("code", { value });
+          // onBeforeChange={(editor, data, value) => {
+          //         console.log("sending", value);
+          //         socket.emit("code", { value });
+          // }}
+          onKeyUp={(editor, event) =>
+          {
+            
+            console.log(event.target.value)
+            socket.emit("code", { value: event.target.value });
           }}
           // onChange={(editor, data, value) => {}}
           // onKeyUp={(editor, data, value) =>
