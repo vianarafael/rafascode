@@ -14,24 +14,30 @@ require("codemirror/mode/javascript/javascript.js");
 
 
 
-function CodeMirrorComponent() {
+function CodeMirrorComponent()
+{
   const [value, setValue] = useState("// RafaSCode");
-  const [expressionsToBeDisplayed, setExpressionsToBeDisplayed] = useState([]); 
+  const [expressionsToBeDisplayed, setExpressionsToBeDisplayed] = useState([]);
   const socket = socketIOClient(ENDPOINT);
   
-    function evaluateExpressions(expressions)
+  function evaluateExpressions(expressions)
+  {
+    const formattedExpressions = _.mapValues(expressions, expression =>
     {
-        const formattedExpressions = _.mapValues(expressions, expression => {
    
-            const result = eval(expression);
+      const result = eval(expression);
 
-      if (result && result.type) {
+      if (result && result.type)
+      {
         return result;
-      } else if (_.isFunction(result) && result.name) {
+      } else if (_.isFunction(result) && result.name)
+      {
         return <i>Function {result.name}</i>;
-      } else if (_.isBoolean(result)) {
+      } else if (_.isBoolean(result))
+      {
         return result ? 'True' : 'False';
-      } else if (_.isObject(result) || _.isArray(result)) {
+      } else if (_.isObject(result) || _.isArray(result))
+      {
         return JSON.stringify(result);
       }
 
@@ -42,27 +48,39 @@ function CodeMirrorComponent() {
     return _.map(formattedExpressions, (expression, line) =>
       <div>{expression}</div>
     );
-      }
+  }
     
-    function createExpression(state) {
-      let expressions, errors;
+  function createExpression(state)
+  {
+    let expressions, errors;
 
-      try {
-          expressions = parseExpressions(state);
-      } catch (e) {
-          errors = e.toString();
+    try
+    {
+      expressions = parseExpressions(state);
+    } catch (e)
+    {
+      errors = e.toString();
    
-      }
-
-        return expressions
     }
 
-      useEffect(() => {
-        setExpressionsToBeDisplayed(
-          evaluateExpressions(createExpression(value))
-        );
-        socket.emit('code', { value })
-      }, [value]);
+    return expressions
+  }
+  
+  useEffect(() =>
+  {
+    socket.on('code', (c) =>
+    {
+      console.log('receiving', c.value)
+      setValue(c.value)
+    })
+  })
+
+      // useEffect(() => {
+      //   setExpressionsToBeDisplayed(
+      //     evaluateExpressions(createExpression(value))
+      //   );
+      //   socket.emit('code', { value })
+      // }, [value]);
   
       // make a distiction between viewers and the coder - the first person that connects is the viewer
   
@@ -78,9 +96,16 @@ function CodeMirrorComponent() {
           value={value}
           options={options}
           onBeforeChange={(editor, data, value) => {
-            setValue(value);
+                  console.log("sending", value);
+                  socket.emit("code", { value });
           }}
-          onChange={(editor, data, value) => {}}
+          // onChange={(editor, data, value) => {}}
+          // onKeyUp={(editor, data, value) =>
+          // {
+          //   console.log('sending', value)
+          //   socket.emit('code', {value})
+          // }
+          // }
 
         />
         <Terminal
