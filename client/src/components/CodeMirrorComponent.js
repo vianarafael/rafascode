@@ -17,28 +17,7 @@ require("codemirror/mode/javascript/javascript.js");
 function CodeMirrorComponent() {
   const [value, setValue] = useState("// RafaSCode");
   const [expressionsToBeDisplayed, setExpressionsToBeDisplayed] = useState([]); 
-  const [receivingData, setReceivingData] = useState(false)
   const socket = socketIOClient(ENDPOINT);
-
-  // useEffect(() =>
-  // {
-  //       socket.emit("code", {value})
-  //       // setExpressionsToBeDisplayed(
-  //       //   evaluateExpressions(createExpression(value))
-     
-  // }, [value]);
-  
-  // useEffect(() =>
-  // {
-  //   socket.on("code", ({ value }) =>
-  //   {
-  //         setValue(value)
-  //         setExpressionsToBeDisplayed(
-  //         evaluateExpressions(createExpression(value)))
-  //   })
-  // })
-
-
   
     function evaluateExpressions(expressions)
     {
@@ -83,16 +62,15 @@ function CodeMirrorComponent() {
           evaluateExpressions(createExpression(value))
         );
         socket.emit('code', { value })
-        // console.log('da exp', expressionsToBeDisplayed)
       }, [value]);
-
-  // useEffect(() =>
-  // {
-  //  socket.emit("code", { value, expressionsToBeDisplayed })
-    
-  // }, [expressionsToBeDisplayed])
-
- 
+  
+      // make a distiction between viewers and the coder - the first person that connects is the viewer
+  
+      // setTimeout(() => {
+      //   socket.on("code", ({ value }) => {
+      //     setValue(value);
+      //   });
+      // }, 1000);
 
     return (
       <div id="editor-terminal">
@@ -103,26 +81,8 @@ function CodeMirrorComponent() {
             setValue(value);
           }}
           onChange={(editor, data, value) => {}}
-          // onKeyUp={(editor, data, v) =>
-          // {
-          //   if (data.keyCode === 13)
-          //   {
-          //     setExpressionsToBeDisplayed(evaluateExpressions(createExpression(value)));
-          //   }
 
-          // }}
         />
-        {/* <button onClick={() =>
-        {
-          console.log('inside')
-          console.log('value', value)
-          console.log('expressionsToBeDisplayed', expressionsToBeDisplayed);
-          socket.on("code", data =>
-          {
-            setValue(data.value)
-          })
-        }}>Check</button> */}
-
         <Terminal
           expressionsToBeDisplayed={expressionsToBeDisplayed}
           setExpressionsToBeDisplayed={setExpressionsToBeDisplayed}
