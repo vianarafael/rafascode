@@ -46,3 +46,7 @@ io.on("connection", socket =>
       })
 
 })
+
+io.on("disconnect", (evt) => {
+  console.log("some people left");
+});

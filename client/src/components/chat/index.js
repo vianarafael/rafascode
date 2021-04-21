@@ -1,7 +1,7 @@
 import "./chat.css";
 import { useState, useEffect } from "react";
 import socketIOClient from "socket.io-client";
-const ENDPOINT = "http://127.0.0.1:5000";
+const ENDPOINT = "http://3.14.10.124/"; //"http://127.0.0.1:5000";
 
 const Chat = () =>
 {
