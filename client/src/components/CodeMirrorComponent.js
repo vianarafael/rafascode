@@ -6,7 +6,7 @@ import "./CodeMirrorComponent.css";
 import parseExpressions from "../parseExpressions"
 import Terminal from "../components/terminal";
 import socketIOClient from "socket.io-client";
-const ENDPOINT = "http://3.14.10.124/"; //"http://127.0.0.1:5000";
+const ENDPOINT =    "http://3.14.10.124/"; // "http://127.0.0.1:5000";
 
 require("codemirror/lib/codemirror.css");
 require("codemirror/theme/material.css");
@@ -76,10 +76,10 @@ function CodeMirrorComponent()
       // console.log('receiving', c.value)
       // console.log('ref', editorRef.current)
       // // setValue(c.value)
-      // setValue(c.value)
-      document.getElementById("editor").value = value;
+      setValue(value)
+      // document.getElementById("editor").value = value;
     })
-  })
+  }, [])
 
       // useEffect(() => {
       //   setExpressionsToBeDisplayed(
@@ -98,11 +98,11 @@ function CodeMirrorComponent()
 
     return (
       <div id="editor-terminal">
-        <textarea rows="30" cols="50" id="editor" placeholder="Type Your Text..." onKeyUp={(e) =>
+        {/* <textarea rows="30" cols="50" id="editor" placeholder="Type Your Text..." onKeyUp={(e) =>
           socket.emit('code', { value: e.target.value })
-        }></textarea>
+        }></textarea> */}
  
-        {/* <CodeMirror
+        <CodeMirror
           ref={editorRef}
           value={value}
           options={options}
@@ -110,13 +110,13 @@ function CodeMirrorComponent()
             // console.log(e.target.value)
           socket.emit("code", {value})
           }} 
-        />  */}
-        <Terminal
+        /> 
+        {/* <Terminal
           expressionsToBeDisplayed={expressionsToBeDisplayed}
           setExpressionsToBeDisplayed={setExpressionsToBeDisplayed}
           evaluateExpressions={evaluateExpressions}
           createExpression={createExpression}
-        />
+        /> */}
       </div>
     );
 }
