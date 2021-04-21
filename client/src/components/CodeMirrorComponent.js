@@ -6,7 +6,7 @@ import "./CodeMirrorComponent.css";
 import parseExpressions from "../parseExpressions"
 import Terminal from "../components/terminal";
 import socketIOClient from "socket.io-client";
-const ENDPOINT =    "http://3.14.10.124/"; // "http://127.0.0.1:5000";
+const ENDPOINT =  "http://3.14.10.124/"; // "http://127.0.0.1:5000";
 
 require("codemirror/lib/codemirror.css");
 require("codemirror/theme/material.css");
@@ -81,6 +81,10 @@ function CodeMirrorComponent()
     })
   }, [])
 
+  function submitCode()
+  {
+    socket.emit('code', {value})
+  }
       // useEffect(() => {
       //   setExpressionsToBeDisplayed(
       //     evaluateExpressions(createExpression(value))
@@ -108,15 +112,17 @@ function CodeMirrorComponent()
           options={options}
           onBeforeChange={(editor, data, value) => {
             // console.log(e.target.value)
-          socket.emit("code", {value})
+          // socket.emit("code", {value})
+            setValue(value);
           }} 
-        /> 
-        {/* <Terminal
+        />
+        <button onClick={submitCode}>Share the Code</button>
+        <Terminal
           expressionsToBeDisplayed={expressionsToBeDisplayed}
           setExpressionsToBeDisplayed={setExpressionsToBeDisplayed}
           evaluateExpressions={evaluateExpressions}
           createExpression={createExpression}
-        /> */}
+        />
       </div>
     );
 }
