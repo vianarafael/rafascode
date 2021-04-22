@@ -24,7 +24,7 @@ const Chat = () =>
       handle,
       message
     })
-    // check if this empties the field
+    // empty the field
     document.getElementById("message").value = ""
     setMessage("")
   }

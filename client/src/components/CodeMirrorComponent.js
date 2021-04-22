@@ -73,11 +73,7 @@ function CodeMirrorComponent()
   {
     socket.on('code', ({value}) =>
     {
-      // console.log('receiving', c.value)
-      // console.log('ref', editorRef.current)
-      // // setValue(c.value)
       setValue(value)
-      // document.getElementById("editor").value = value;
     })
   }, [])
 
@@ -85,34 +81,14 @@ function CodeMirrorComponent()
   {
     socket.emit('code', {value})
   }
-      // useEffect(() => {
-      //   setExpressionsToBeDisplayed(
-      //     evaluateExpressions(createExpression(value))
-      //   );
-      //   socket.emit('code', { value })
-      // }, [value]);
-  
-      // make a distiction between viewers and the coder - the first person that connects is the viewer
-  
-      // setTimeout(() => {
-      //   socket.on("code", ({ value }) => {
-      //     setValue(value);
-      //   });
-      // }, 1000);
 
     return (
       <div id="editor-terminal">
-        {/* <textarea rows="30" cols="50" id="editor" placeholder="Type Your Text..." onKeyUp={(e) =>
-          socket.emit('code', { value: e.target.value })
-        }></textarea> */}
- 
         <CodeMirror
           ref={editorRef}
           value={value}
           options={options}
           onBeforeChange={(editor, data, value) => {
-            // console.log(e.target.value)
-          // socket.emit("code", {value})
             setValue(value);
           }} 
         />
